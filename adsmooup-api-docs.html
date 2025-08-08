@@ -13,110 +13,38 @@
       --text-muted: #6b7280;
       --code-bg: #f3f4f6;
     }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: var(--bg-light);
-      color: var(--text-dark);
-      margin: 0;
-      padding: 2rem;
-    }
-
-    h1 {
-      font-size: 2.2rem;
-      margin-bottom: 1rem;
-    }
-
-    h2 {
-      border-left: 4px solid var(--primary);
-      padding-left: 12px;
-      margin-top: 2.5rem;
-      font-size: 1.6rem;
-    }
-
-    h3 {
-      margin: 0;
-      font-size: 1.2rem;
-    }
-
-    code {
-      background: var(--code-bg);
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-family: monospace;
-      font-size: 0.95em;
-    }
-
-    pre {
-      background: var(--code-bg);
-      padding: 12px;
-      border-radius: 6px;
-      overflow-x: auto;
-      font-size: 0.9em;
-    }
-
-    .tag {
-      display: inline-block;
-      background: var(--primary);
-      color: #fff;
-      font-weight: bold;
-      padding: 2px 10px;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      margin-bottom: 6px;
-      margin-right: 10px;
-    }
-
-    .endpoint {
-      background: var(--bg-card);
-      border: 1px solid #e5e7eb;
-      border-left: 4px solid var(--primary);
-      border-radius: 8px;
-      padding: 16px 20px;
-      margin: 20px 0;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
-      transition: box-shadow 0.2s ease-in-out;
-    }
-
-    .endpoint:hover {
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
-    }
-
-    .endpoint ul {
-      margin-top: 0.5rem;
-      padding-left: 1.2rem;
-    }
-
-    .footer {
-      margin-top: 4rem;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-
-    @media screen and (max-width: 600px) {
-      body {
-        padding: 1rem;
-      }
-    }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg-light); color: var(--text-dark); margin: 0; padding: 2rem; }
+    h1 { font-size: 2.2rem; margin-bottom: 1rem; }
+    h2 { border-left: 4px solid var(--primary); padding-left: 12px; margin-top: 2.5rem; font-size: 1.6rem; }
+    h3 { margin: 0; font-size: 1.2rem; }
+    code { background: var(--code-bg); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 0.95em; }
+    pre { background: var(--code-bg); padding: 12px; border-radius: 6px; overflow-x: auto; font-size: 0.9em; }
+    .tag { display: inline-block; background: var(--primary); color: #fff; font-weight: bold; padding: 2px 10px; border-radius: 4px; font-size: 0.8rem; margin-bottom: 6px; margin-right: 10px; }
+    .endpoint { background: var(--bg-card); border: 1px solid #e5e7eb; border-left: 4px solid var(--primary); border-radius: 8px; padding: 16px 20px; margin: 20px 0; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03); transition: box-shadow 0.2s ease-in-out; }
+    .endpoint:hover { box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05); }
+    .endpoint ul { margin-top: 0.5rem; padding-left: 1.2rem; }
+    .note { color: var(--text-muted); font-size: 0.92rem; }
+    .footer { margin-top: 4rem; font-size: 0.9rem; color: var(--text-muted); }
+    @media screen and (max-width: 600px) { body { padding: 1rem; } }
   </style>
 </head>
 <body>
 
   <h1>📘 AdsMooup API Documentation</h1>
   <p><strong>Base URL:</strong> <code>https://adsmooup-backend.vercel.app/api</code></p>
+  <p class="note">All endpoints below (except <code>/auth/login</code>) require authentication. The server uses a JWT set as an HTTP‑only cookie via <code>/auth/login</code>.</p>
 
   <h2>🔐 Authentication</h2>
 
   <div class="endpoint">
     <h3><span class="tag">POST</span>/auth/login</h3>
-    <p>Authenticate user and return a JWT token (set as cookie).</p>
+    <p>Authenticate user and set a JWT cookie.</p>
     <strong>FormData:</strong>
     <ul>
       <li><code>email</code> – string</li>
       <li><code>password</code> – string</li>
     </ul>
   </div>
-
 
   <div class="endpoint">
     <h3><span class="tag">GET</span>/auth/logout</h3>
@@ -137,7 +65,7 @@
 
   <div class="endpoint">
     <h3><span class="tag">POST</span>/users</h3>
-    <p>Create User</p>
+    <p>Create User.</p>
     <strong>FormData:</strong>
     <ul>
       <li><code>name</code> – string</li>
@@ -158,53 +86,89 @@
 
   <h2>🍽️ Restaurant Endpoints</h2>
 
+  <!-- Create restaurant -->
   <div class="endpoint">
     <h3><span class="tag">POST</span>/restaurants</h3>
-    <p>Create a new restaurant.</p>
-    <strong>FormData:</strong>
+    <p>Step 1 — Create a new restaurant.</p>
+    <strong>FormData (multipart):</strong>
     <ul>
-      <li><code>name</code> – string</li>
-      <li><code>logo</code> – file (image)</li>
+      <li><code>name</code> – string (required)</li>
+      <li><code>logo</code> – file (image, required)</li>
     </ul>
+    <p class="note">Uploads logo to Vercel Blob, returns <code>restaurant</code> with <code>logoUrl</code> and empty <code>categories</code>.</p>
   </div>
 
+  <!-- List / get / update / delete (generic CRUD kept as before) -->
   <div class="endpoint">
     <h3><span class="tag">GET</span>/restaurants</h3>
     <p>Get all restaurants.</p>
   </div>
 
   <div class="endpoint">
-    <h3><span class="tag">GET</span>/restaurants/:id</h3>
+    <h3><span class="tag">GET</span>/restaurants/:restaurantId</h3>
     <p>Get a specific restaurant by ID (with categories and menus).</p>
   </div>
 
   <div class="endpoint">
-    <h3><span class="tag">PUT</span>/restaurants/:id</h3>
+    <h3><span class="tag">PUT</span>/restaurants/:restaurantId</h3>
     <p>Update restaurant info.</p>
   </div>
 
   <div class="endpoint">
-    <h3><span class="tag">DELETE</span>/restaurants/:id</h3>
+    <h3><span class="tag">DELETE</span>/restaurants/:restaurantId</h3>
     <p>Delete a restaurant.</p>
   </div>
 
+  <!-- Add category -->
   <div class="endpoint">
-    <h3><span class="tag">POST</span>/restaurants/:id/categories</h3>
-    <p>Add a category to a restaurant.</p>
-    <strong>FormData:</strong>
+    <h3><span class="tag">POST</span>/restaurants/:restaurantId/categories</h3>
+    <p>Step 2 — Add a category to a restaurant.</p>
+    <strong>FormData (multipart):</strong>
     <ul>
-      <li><code>name</code> – string</li>
-      <li><code>image</code> – file (image)</li>
+      <li><code>name</code> – string (required)</li>
+      <li><code>image</code> – file (image, required)</li>
     </ul>
+    <p class="note">Stores <code>{ name, imageUrl, order, menus: [] }</code> inside <code>restaurant.categories</code>.</p>
   </div>
 
+  <!-- Add menus to category by index -->
   <div class="endpoint">
     <h3><span class="tag">POST</span>/restaurants/:restaurantId/categories/:categoryId/menus</h3>
-    <p>Add menu images to a category.</p>
-    <strong>FormData:</strong>
+    <p>Step 3 — Add one or more menu images to a category (by index).</p>
+    <strong>FormData (multipart):</strong>
     <ul>
-      <li><code>images[]</code> – multiple files</li>
+      <li><code>images</code> – multiple files (at least one required)</li>
     </ul>
+    <p class="note">Each uploaded image becomes a menu item: <code>{ imageUrl, order }</code>. Orders are appended sequentially.</p>
+  </div>
+
+  <!-- Reorder categories -->
+  <div class="endpoint">
+    <h3><span class="tag">PUT</span>/restaurants/:restaurantId/categories/reorder</h3>
+    <p>Update category order (drag & drop).</p>
+    <strong>JSON body:</strong>
+    <pre>{
+  "order": [2, 0, 1] // array of existing indexes in the new desired order
+}</pre>
+    <p class="note">Rebuilds <code>categories</code> based on the provided index mapping and normalizes each category’s <code>order</code> to its new position.</p>
+  </div>
+
+  <!-- Reorder menus within a category -->
+  <div class="endpoint">
+    <h3><span class="tag">PUT</span>/restaurants/:restaurantId/categories/:categoryId/menus/reorder</h3>
+    <p>Update menu order within a category (drag & drop).</p>
+    <strong>JSON body:</strong>
+    <pre>{
+  "order": [3, 1, 0, 2] // array of existing menu indexes in the new desired order
+}</pre>
+    <p class="note">Rebuilds <code>menus</code> for the specified category and normalizes each menu’s <code>order</code>.</p>
+  </div>
+
+  <!-- Completion endpoint -->
+  <div class="endpoint">
+    <h3><span class="tag">GET</span>/restaurants/:restaurantId/completed</h3>
+    <p>Step 4 — Completion helper (used by frontend to confirm and redirect).</p>
+    <p class="note">Returns: <code>{ message: "Restaurant setup complete! Redirecting...", redirectTo: "/restaurants/:restaurantId" }</code></p>
   </div>
 
   <h2>📢 Advertisement Endpoints</h2>
@@ -212,7 +176,7 @@
   <div class="endpoint">
     <h3><span class="tag">POST</span>/ads</h3>
     <p>Create an ad linked to a restaurant and category.</p>
-    <strong>FormData:</strong>
+    <strong>FormData (multipart):</strong>
     <ul>
       <li><code>image</code> – file (image)</li>
       <li><code>restaurantId</code> – string</li>
@@ -240,3 +204,4 @@
   </div>
 </body>
 </html>
+
