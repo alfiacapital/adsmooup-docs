@@ -164,23 +164,33 @@
     <p class="note">Rebuilds <code>menus</code> for the specified category and normalizes each menu’s <code>order</code>.</p>
   </div>
 
-  <!-- Completion endpoint -->
   <div class="endpoint">
-    <h3><span class="tag">GET</span>/restaurants/:restaurantId/completed</h3>
-    <p>Step 4 — Completion helper (used by frontend to confirm and redirect).</p>
-    <p class="note">Returns: <code>{ message: "Restaurant setup complete! Redirecting...", redirectTo: "/restaurants/:restaurantId" }</code></p>
+    <h3><span class="tag">POST</span>/restaurants/:restaurantId/select/:adId</h3>
+    <p>Select ad for restaurant .</p>
+    
   </div>
+
+
 
   <h2>📢 Advertisement Endpoints</h2>
 
   <div class="endpoint">
     <h3><span class="tag">POST</span>/ads</h3>
-    <p>Create an ad linked to a restaurant and category.</p>
+    <p>Create an ad .</p>
     <strong>FormData (multipart):</strong>
     <ul>
       <li><code>image</code> – file (image)</li>
-      <li><code>restaurantId</code> – string</li>
-      <li><code>categoryId</code> – string</li>
+      <li><code>type</code> – enum ['public', 'unique']</li>
+    </ul>
+  </div>
+
+  <div class="endpoint">
+    <h3><span class="tag">PUT</span>/ads/:id</h3>
+    <p>Create an ad .</p>
+    <strong>FormData (multipart):</strong>
+    <ul>
+      <li><code>image</code> – file (image)</li>
+      <li><code>type</code> – enum ['public', 'unique']</li>
     </ul>
   </div>
 
@@ -199,9 +209,29 @@
     <p>Delete an ad by ID.</p>
   </div>
 
+  <h2>📢 Advertisement Analytics Endpoints</h2>
+
+  <div class="endpoint">
+    <h3><span class="tag">POST</span>/ads/:adId/views</h3>
+    <p>Create an ad views .</p>
+    <strong>FormData :</strong>
+    <ul>
+      <li><code>ip</code> – string</li>
+      <li><code>userAgent</code> – string</li>
+      <li><code>device</code> – string</li>
+      <li><code>country</code> – string</li>
+      <li><code>city</code> – string</li>
+    </ul>
+  </div>
+
+
+
+  <div class="endpoint">
+    <h3><span class="tag">GET</span>/ads/:adId/views</h3>
+    <p>Get ad views.</p>
+  </div>
   <div class="footer">
     <p>📅 Last updated: August 2025 — AdsMooup API v1</p>
   </div>
 </body>
 </html>
-
